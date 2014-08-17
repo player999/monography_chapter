@@ -1,0 +1,58 @@
+digraph finite_state_machine {
+    rankdir=UD;
+    size="8,5";
+    resolution=300;
+
+    node [shape = circle, 
+          label=
+"Сброс", 
+          fontsize=14
+    ] RST;
+    
+    node [shape = circle, 
+          label=
+"Выдать результат
+RD=1", 
+          fontsize=14
+    ] MODULE_RDY;
+
+    node [shape = circle, 
+          label=
+"Есть результат
+модуля инициализации
+BUF=RES_G", 
+          fontsize=14
+    ] G_READY;
+    
+    node [shape = circle, 
+          label=
+"Есть результат
+модуля тела
+рекурсии
+BUF=RES_H
+CNT=CNT+1", 
+          fontsize=14
+    ] H_READY;
+    
+    node [shape = circle, 
+          label=
+"Начало вычислений
+ITERATIONS=MAX_IN
+", 
+          fontsize=14
+    ] ST_SIGNAL;
+
+    node [shape = point ] start_point;
+    node [shape = point ] start_point2;
+
+start_point -> RST [ label = "сигнал сброса" ];
+start_point2 -> ST_SIGNAL [ label = "сигнал начала вычислений" ];
+RST -> ST_SIGNAL [ label = "сигнал начала вычислений" ];
+ST_SIGNAL -> G_READY [label = "вычисления модуля инициализации закончены"];
+G_READY -> MODULE_RDY [label = "условия окончания работы модуля выполнены"];
+G_READY -> H_READY [label = "модуль тела рекурсии закончил работаnь"];
+H_READY -> H_READY [label = "модуль тела рекурсии закончил работаnь"];
+H_READY -> MODULE_RDY [label = "условия окончания работы модуля выполнены"];
+H_READY -> ST [label = "условия окончания работы модуля выполнены"];
+}
+
